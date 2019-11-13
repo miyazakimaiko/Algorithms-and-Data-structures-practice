@@ -31,3 +31,40 @@ function mergeSort(arr) {
 }
 
 console.log(mergeSort([3,7,3,6,83,53,13,56,87]));
+
+//======= Radix sort practice ==========//
+
+// Helper
+// Returns the digit in num at the given place value
+const getDigit = (num, i) => {
+    return Math.floor( Math.abs(num) / Math.pow(10, i) ) % 10;
+}
+
+//Count how many digit in the number
+const digitCount = (num) => {
+    if (num === 0) return 1;
+    return Math.floor( Math.log10(Math.abs(num)) ) + 1;
+}
+
+// Find how many digit is most in the array
+const mostDigit = (nums) => {
+    let maxDigits = 0;
+    for (let i = 0; i < nums.length; i++) {
+        maxDigits = Math.max( maxDigits, digitCount(nums[i]) );
+    }
+    return maxDigits;
+}
+
+// Radix sort
+const radixSort = (nums) => {
+    let maxDigitCount = mostDigit(nums);
+    for (let k = 0; k < maxDigitCount; k++) {
+        let digitBuckets = Array.from({length: 10}, () => []);
+        for (let i = 0; i < nums.length; i++) {
+            digitBuckets[getDigit(nums[i], k)].push(nums[i]);
+        }
+        nums = [].concat(...digitBuckets);
+    }
+    return nums;
+}
+console.log(radixSort([23,64,865,5634,4567,744,34,25,7655]));
