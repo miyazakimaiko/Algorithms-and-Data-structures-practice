@@ -12,7 +12,7 @@ class SinglyLinkedList{
         this.length = 0;
     }
     push(val) {
-         newEl = new Node(val);
+        let newEl = new Node(val);
         if (!this.head) {
             this.head = newEl;
             this.tail = newEl;
@@ -23,7 +23,7 @@ class SinglyLinkedList{
         this.length += 1;
         return this;
     }
-    // This still doesn't work
+    // It's working now...
     pop() {
         if (!this.head) return undefined;
         let current = this.head;
@@ -37,6 +37,30 @@ class SinglyLinkedList{
         this.length -= 1;
         return current;
     }
+    shift() {
+        if(!this.head) return undefined;
+        let removeItem = this.head;
+        this.head = removeItem.next;
+        this.length--;
+        if(this.length === 0) {
+            this.tail = null;
+        }
+        return removeItem;
+    }
+    unshift(val) {
+        let newEl = new Node(val);
+        if(!this.head) {
+            this.head = newEl;
+            this.tail = this.head;
+        } else {
+            let prevHead = this.head;
+            this.head = newEl;
+            this.head.next = prevHead;
+        }
+        this.length++;
+        return this;
+    }
 }
 
 var list = new SinglyLinkedList()
+console.log(list)
