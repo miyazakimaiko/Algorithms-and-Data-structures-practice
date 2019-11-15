@@ -60,6 +60,59 @@ class SinglyLinkedList{
         this.length++;
         return this;
     }
+    get(num) {
+        if(num < 0 || num >= this.length) return null;
+        let item = this.head;
+        for (let i = 0; i < this.length; i++) {
+            if(i === num) return item;
+            item = item.next;
+        }
+    }
+    set(index, value) {
+        if(index < 0 || index >= this.length) return false;
+        let position = this.get(index);
+        position.val = value;
+        return true;
+    }
+    insert(index, value) {
+        if (index < 0 || index > this.length) return false;
+        if (index === this.length) return !!this.push(value) // return true(!!) if this.push(value) happens. 
+        if (index === 0) return !!this.unshift(value) 
+        let newNode = new Node(value);
+        let prev = this.get(index-1);
+        let next = this.get(index);
+        prev.next = newNode;
+        newNode.next = next;
+        this.length++;
+        return true;
+    }
+    remove(index) {
+        if(index < 0 || index > this.length) return undefined;
+        if (index === this.length - 1) return this.pop();
+        if (index === 0) return this.shift();
+        let prev = this.get(index - 1);
+        let remove = prev.next;
+        prev.next = remove.next;
+        this.length--;
+        return remove;
+    }
+    // I should be able to shorten this method.
+    reverse() {
+        let newTail = this.head;
+        let prev = newTail;
+        let current = newTail.next;
+        while(current.next) {
+            let currentNext = current.next;
+            current.next = prev;
+            prev = current;
+            current = currentNext;
+        } 
+        this.head = current;
+        current.next = prev;
+        this.tail = newTail;
+        this.tail.next = null;
+        return this;
+    }
 }
 
 var list = new SinglyLinkedList()
