@@ -42,23 +42,31 @@ class MaxBinaryHeap {
     removeMax() {
         let removed = this.heap[0];
         let end = this.heap.pop();
-        this.heap[0] = end;
-        this.heap.sinkDown();
+        if (this.heap.length > 0) {
+            this.heap[0] = end;
+            this.sinkDown();
+        }
         return removed;
     }
     sinkDown() {
         let targetIdx = 0;
-        let target = this.heap[targetIdx];
-        let leftChildIdx = targetIdx * 2 + 1;
-        let rightChildIdx = targetIdx * 2 + 2;
-        let leftChild = this.heap[leftChildIdx];
-        let rightChild = this.heap[rightChildIdx];
-        while (target < leftChild || target < rightChild) {
-            if (leftChild > rightChild) {
-                let temp = target;
-                target = leftChild;
-                leftChild = temp;
+        while (true) {
+            let target = this.heap[targetIdx];
+            let leftChildIdx = targetIdx * 2 + 1;
+            let rightChildIdx = targetIdx * 2 + 2;
+            let left = this.heap[leftChildIdx];
+            let right = this.heap[rightChildIdx];
+            let swap = null;
+            if (leftChildIdx < this.heap.length && target < left){
+                swap = leftChildIdx;
             }
+            if (rightChildIdx < this.heap.length && target < right && left < right){
+                swap = rightChildIdx;
+            }
+            if (swap === null) break;
+            this.heap[targetIdx] = this.heap[swap];
+            this.heap[swap] = target;
+            targetIdx = swap;
         }
     }
 }
