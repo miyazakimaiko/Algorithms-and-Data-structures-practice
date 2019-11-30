@@ -59,11 +59,28 @@ class Graph {
         }
         return result;
     }
+    BreadthFirst(start) {
+        const queue = [start];
+        const result = [];
+        const visited = {};
+        while(queue.length) {
+            let current = queue.shift();
+            visited[current] = true;
+            result.push(current)
+            this.adjacencyList[current].forEach(neighbor => {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.push(neighbor);
+                }
+            });
+        }
+        return result;
+    }
 }
 // current = A
-//stack = [B]
-//result = [A,C]
-//visited = [A,B,C]
+//queue = [E]
+//result = [A,B]
+//visited = [A=true,B=true, E=true]
 
 let g = new Graph();
 console.log(g);
