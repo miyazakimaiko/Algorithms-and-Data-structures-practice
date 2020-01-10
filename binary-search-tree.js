@@ -53,6 +53,38 @@ class BST {
         }
         return found;
     }
+    delete(val) {
+        const deleteNode = (node, val) => {
+            if (!node) return undefined;
+            if (node.val === val) {
+                if (node.left === null && node.right === null) {
+                    return null;
+                }
+                else if (node.left === null) {
+                    return node.right;
+                }
+                else if (node.right === null) {
+                    return node.left;
+                } 
+                else {
+                    let replacement = node.right;
+                    while(replacement.left !== null) {
+                        replacement = replacement.left;
+                    }
+                    node.val = replacement.val;
+                    node.right = deleteNode(node.right, replacement.val);
+                    return node;
+                }
+            } else if (val < node.val) {
+                node.left = deleteNode(node.left, val);
+                return node;
+            } else {
+                node.right = deleteNode(node.right, val);
+                return node;
+            }
+        }
+        this.root = deleteNode(this.root, val);
+    }
     // BREADTH FIRST SEARCH PSEUDOCODE
     // Create a queue (this can be an array) and a variable to  store the values of nodes visited
     // Place the root node in the queue
@@ -136,5 +168,13 @@ class BST {
 }
 
 const tree = new BST();
+tree.insert(10);
+tree.insert(15);
+tree.insert(5);
+tree.insert(18);
+tree.insert(11);
+tree.insert(6);
+tree.insert(2);
+
 
 console.log(tree);
